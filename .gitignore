@@ -6,6 +6,9 @@ DerivedData/
 # Only include this if you want teammates to download Mbed OS locally
 # mbed-os/
 
+.pio
+.mbed_os
+
 # IDE specific files
 .vscode/
 .mtw/
