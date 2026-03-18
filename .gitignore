@@ -1,0 +1,20 @@
+# Mbed Build folders (The biggest space hog)
+BUILD/
+DerivedData/
+
+# Mbed OS itself (If you chose to "Link" it instead of "Store" it)
+# Only include this if you want teammates to download Mbed OS locally
+# mbed-os/
+
+# IDE specific files
+.vscode/
+.mtw/
+*.code-workspace
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Python/Compiled files
+*.pyc
+__pycache__/
