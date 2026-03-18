@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
     "target_overrides": {
         "*": {
@@ -13,4 +14,21 @@
             "value": 16384
         }
     }
+=======
+{
+    "target_overrides": {
+        "*": {
+            "target.components_add": ["SD"],
+            "target.printf_lib": "std",
+            "platform.stdio-baud-rate": 115200,
+            "sd.INIT_FREQUENCY": 100000,
+            "target.extra_labels_add": ["lib"]
+        }
+    },
+    "config": {
+        "main-stack-size": {
+            "value": 16384
+        }
+    }
+>>>>>>> 82ec9ab805a491f488dbf7352bcaa5bb2a304019
 }
