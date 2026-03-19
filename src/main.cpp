@@ -34,6 +34,13 @@
     #define TEST_RESET(led) line_follower_reset(led)
     #define TEST_PRINT()    line_follower_print()
 
+#elif defined(TEST_DC_MOTOR)
+    #include "test_dc_motor.h"
+    #define TEST_INIT(lps)    dc_motor_init(lps)
+    #define TEST_TASK(led)    dc_motor_task(led)
+    #define TEST_RESET(led)   dc_motor_reset(led)
+    #define TEST_PRINT()      dc_motor_print()
+
 
 #else
     #error "No test selected. Open test_config.h and uncomment one #define."
