@@ -7,17 +7,17 @@
 // ---------------------------------------------------------------------------
 // Robot physical parameters — measure your actual robot with a caliper
 // ---------------------------------------------------------------------------
-static constexpr float BAR_DIST       = 0.12f;   // sensor bar to wheelbase [m]
-static constexpr float WHEEL_DIAMETER = 0.04f;   // wheel diameter [m]
-static constexpr float WHEEL_BASE     = 0.10f;   // distance between wheels [m]
+static constexpr float BAR_DIST       = 0.1861f;   // sensor bar to wheelbase [m]
+static constexpr float WHEEL_DIAMETER = 0.0391f;   // wheel diameter [m]
+static constexpr float WHEEL_BASE     = 0.1799f;   // distance between wheels [m]
 static constexpr float MAX_VEL_RPS    = 2.0f;    // max motor velocity [RPS]
 
 // ---------------------------------------------------------------------------
 // DCMotor parameters — check your motor datasheet
 // ---------------------------------------------------------------------------
-static constexpr float GEAR_RATIO     = 78.125f; // gearbox ratio
+static constexpr float GEAR_RATIO     = 100f; // gearbox ratio
 static constexpr float KN             = 180.0f;  // motor constant [rpm/V]
-static constexpr float VOLTAGE_MAX    = 12.0f;   // supply voltage [V]
+static constexpr float VOLTAGE_MAX    = 11.1f;   // supply voltage [V]
 
 // ---------------------------------------------------------------------------
 // LineFollower uses the IMU I2C bus (PC_9 = SDA, PA_8 = SCL)
