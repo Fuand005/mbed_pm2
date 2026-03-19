@@ -63,7 +63,7 @@ void dc_motor_init(int loops_per_second)
     mp_motor_left->setMaxVelocity(MAX_TEST_VEL_RPS);
     mp_motor_right->setMaxVelocity(MAX_TEST_VEL_RPS);
 
-    *mp_enable = 1;
+    *mp_enable = 0;
 
     mp_motor_left->setVelocity(0.0f);
     mp_motor_right->setVelocity(0.0f);
@@ -73,6 +73,7 @@ void dc_motor_init(int loops_per_second)
 
 void dc_motor_task(DigitalOut& led)
 {
+    *mp_enable = 1;
     led = !led;
 
     // How many loops fit in one phase
@@ -115,8 +116,8 @@ void dc_motor_task(DigitalOut& led)
             break;
     }
 
-    mp_motor_left->setVelocity(m_vel_left);
-    mp_motor_right->setVelocity(m_vel_right);
+    mp_motor_left->setVelocity(-m_vel_left);
+    mp_motor_right->setVelocity(-m_vel_right);
 
     m_counter++;
 }
@@ -125,8 +126,10 @@ void dc_motor_reset(DigitalOut& led)
 {
     mp_motor_left->setVelocity(0.0f);
     mp_motor_right->setVelocity(0.0f);
-    *mp_enable = 0;
-    m_counter  = 0;
+    *mp_enable  = 0;
+    m_counter   = 0;
+    m_vel_left  = 0.0f;
+    m_vel_right = 0.0f;
     led = 0;
 }
 
