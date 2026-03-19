@@ -1,18 +1,16 @@
-<<<<<<< HEAD
-BUILD
-PwmIn
-.mbed
-=======
-# Mbed Build folders (The biggest space hog)
+# Mbed Build folders
 BUILD/
 DerivedData/
+PwmIn
 
-# Mbed OS itself (If you chose to "Link" it instead of "Store" it)
-# Only include this if you want teammates to download Mbed OS locally
-# mbed-os/
+# Mbed config
+.mbed
+.mbed_os
+
+# Mbed OS itself
+mbed-os/
 
 .pio
-.mbed_os
 
 # IDE specific files
 .vscode/
@@ -26,6 +24,4 @@ Thumbs.db
 # Python/Compiled files
 *.pyc
 __pycache__/
-
-mbed-os/
 

@@ -55,7 +55,7 @@ public:
 private:
     static unsigned int threadFlags; // variable that holds all assigned thread flags
     unsigned int threadFlag;         // thread flag of this object
-    static Mutex mutex;              // shared mutex for all ThreadFlag instances
+    static Mutex& getMutex();        // lazily initialized to avoid pre-RTOS construction
 };
 
 #endif /* THREAD_FLAG_H_ */

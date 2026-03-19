@@ -48,7 +48,7 @@ void color_sensor_init(int loops_per_second)
     (void)loops_per_second;
 
     // pin order: freq_out, led_enable, S0, S1, S2, S3
-    static ColorSensor sensor(PB_14, PH_0, PA_4, PB_0, PC_1, PC_0);
+    static ColorSensor sensor(PB_14, PH_0, PA_4, PB_0, PC_0, PC_1);
     mp_sensor = &sensor;
     mp_sensor->switchLed(ON); // keep the 4 illumination LEDs permanently on
     m_first_print = true;

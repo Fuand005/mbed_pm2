@@ -51,7 +51,7 @@ void color_sensor_calib_init(int loops_per_second)
 
     // Our wiring — 6-pin constructor: freq_out, led_enable, S0, S1, S2, S3
     // PH_0 is our LED pin (differs from library default PB_14!)
-    static ColorSensor sensor(PB_14, PH_0, PA_4, PB_0, PC_1, PC_0);
+    static ColorSensor sensor(PB_3, PC_3, PA_4, PB_0, PC_1, PC_0);
     mp_sensor = &sensor;
     mp_sensor->switchLed(ON); // keep the 4 illumination LEDs permanently on
     m_first_print = true;

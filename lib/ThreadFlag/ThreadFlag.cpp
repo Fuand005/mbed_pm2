@@ -9,14 +9,19 @@
 using namespace std;
 
 unsigned int ThreadFlag::threadFlags = 0;
-Mutex ThreadFlag::mutex;
+
+Mutex& ThreadFlag::getMutex()
+{
+    static Mutex mutex;
+    return mutex;
+}
 
 /**
  * Creates a signal object and assigns a unique flag.
  */
 ThreadFlag::ThreadFlag()
 {
-    mutex.lock();
+    getMutex().lock();
 
     unsigned int n = 0;
     while ((((1 << n) & threadFlags) > 0) && (n < 30))
@@ -25,14 +30,14 @@ ThreadFlag::ThreadFlag()
         // All flags are in use - this is a critical error
         printf("ThreadFlag: CRITICAL ERROR - All 30 thread flags are in use! System may become unstable.\n");
         threadFlag = 0; // Invalid flag to indicate failure
-        mutex.unlock();
+        getMutex().unlock();
         return;
     }
 
     threadFlag = (1 << n);
     threadFlags |= threadFlag; // CRITICAL FIX: Mark flag as used
 
-    mutex.unlock();
+    getMutex().unlock();
 }
 
 /**
@@ -40,11 +45,11 @@ ThreadFlag::ThreadFlag()
  */
 ThreadFlag::~ThreadFlag()
 {
-    mutex.lock();
+    getMutex().lock();
 
     threadFlags &= ~threadFlag;
 
-    mutex.unlock();
+    getMutex().unlock();
 }
 
 /**
