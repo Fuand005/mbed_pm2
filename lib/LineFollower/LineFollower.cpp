@@ -118,24 +118,52 @@ float LineFollower::getMeanFourAvgBitsOuter() const
 // Thread task
 void LineFollower::followLine()
 {
+    // Straight vs curve detection with hysteresis
+    static const float CURVE_THRESH_ON  = 0.15f;  // rad - enter curve mode
+    static const float CURVE_THRESH_OFF = 0.05f;  // rad - exit curve mode
+    static const float STRAIGHT_BIAS    = -0.035f; // rad - right-side offset on straights
+    static const uint8_t MAX_LEDS       = 3;      // ignore frames with 4+ sensors active (intersection/noise)
+    static bool in_curve = false;
+
     while (true) {
         ThisThread::flags_wait_any(m_ThreadFlag);
 
         // update sensor bar readings
         m_SensorBar.update();
 
-        // only update sensor bar angle if an led is triggered
-        is_any_led_active = m_SensorBar.isAnyLedActive();
+        // Detect wide-mark / intersection: too many sensors active at once
+        uint8_t n_active = m_SensorBar.getNrOfLedsActive();
+        bool wide_detection = (n_active >= MAX_LEDS);
+
+        is_any_led_active = (n_active > 0) && !wide_detection;
         if (is_any_led_active) {
-            m_angle = m_SensorBar.getAvgAngleRad();
+            m_angle = m_SensorBar.getAngleRad();
         }
         m_mean_three_avg_bits_left = m_SensorBar.getMeanThreeAvgBitsLeft();
         m_mean_three_avg_bits_right = m_SensorBar.getMeanThreeAvgBitsRight();
         m_mean_four_avg_bits_center = m_SensorBar.getMeanFourAvgBitsCenter();
         m_mean_four_avg_bits_outer = m_SensorBar.getMeanFourAvgBitsOuter();
 
+        // Only update straight/curve state during normal detection
+        if (!wide_detection) {
+            if (!in_curve && fabsf(m_angle) > CURVE_THRESH_ON) {
+                in_curve = true;
+            } else if (in_curve && fabsf(m_angle) < CURVE_THRESH_OFF) {
+                in_curve = false;
+            }
+        }
+
+        // Straight: bias to right side. Curve: slight right pull to stay on right curves.
+        static const float CURVE_BIAS = -0.26f; // same direction as STRAIGHT_BIAS = pulls right
+        float angle_error = in_curve ? (m_angle + CURVE_BIAS) : (m_angle + STRAIGHT_BIAS);
+
+        // Wide detection: freeze angle, apply only gentle correction to hold heading
+        if (wide_detection) {
+            angle_error *= 0.2f;
+        }
+
         // control algorithm for robot velocities
-        m_robot_coord(1) = ang_cntrl_fcn(m_Kp, m_Kp_nl, m_angle);
+        m_robot_coord(1) = ang_cntrl_fcn(m_Kp, m_Kp_nl, angle_error);
         m_robot_coord(0) = vel_cntrl_fcn(m_wheel_vel_max_rps * 2 * M_PIf,
                                          m_rotation_to_wheel_vel,
                                          m_robot_coord(1),

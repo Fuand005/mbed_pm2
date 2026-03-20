@@ -34,6 +34,20 @@
     #define TEST_RESET(led) line_follower_reset(led)
     #define TEST_PRINT()    line_follower_print()
 
+#elif defined(TEST_LINE_FOLLOWER_SLOW)
+    #include "test_line_follower_SLOW.h"
+    #define TEST_INIT(lps)  line_follower_slow_init(lps)
+    #define TEST_TASK(led)  line_follower_slow_task(led)
+    #define TEST_RESET(led) line_follower_slow_reset(led)
+    #define TEST_PRINT()    line_follower_slow_print()
+
+#elif defined(TEST_LINE_FOLLOWER_FAST)
+    #include "test_line_follower_FAST.h"
+    #define TEST_INIT(lps)  line_follower_fast_init(lps)
+    #define TEST_TASK(led)  line_follower_fast_task(led)
+    #define TEST_RESET(led) line_follower_fast_reset(led)
+    #define TEST_PRINT()    line_follower_fast_print()
+
 #elif defined(TEST_DC_MOTOR)
     #include "test_dc_motor.h"
     #define TEST_INIT(lps)    dc_motor_init(lps)
@@ -61,7 +75,7 @@ int main()
     Timer main_task_timer;
 
     DigitalOut user_led(LED1);
-#ifdef TEST_LINE_FOLLOWER
+#if defined(TEST_LINE_FOLLOWER) || defined(TEST_LINE_FOLLOWER_SLOW) || defined(TEST_LINE_FOLLOWER_FAST)
     // PB_9 = I2C1 SDA for sensor bar — use a different pin to avoid conflict
     DigitalOut led1(PB_10);
 #else

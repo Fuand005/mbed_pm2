@@ -7,7 +7,9 @@
       "Bash(powershell.exe -NoProfile -Command 'Get-Process | Where-Object { $_.Name -match \"\"putty|teraterm|python|platformio|stlink|serial\"\" } | Select-Object Name, Id | Format-Table -AutoSize')",
       "Bash(powershell.exe -NoProfile -Command 'Stop-Process -Id 24204 -Force; Write-Output \"\"Killed platformio PID 24204\"\"')",
       "WebFetch(domain:github.com)",
-      "Bash(curl -s \"https://raw.githubusercontent.com/pichim/PM2_PES_Board_Example/main/lib/SensorBar/SensorBar.h\")"
+      "Bash(curl -s \"https://raw.githubusercontent.com/pichim/PM2_PES_Board_Example/main/lib/SensorBar/SensorBar.h\")",
+      "Bash(mbed-tools compile:*)",
+      "Bash(mbed compile:*)"
     ]
   }
 }

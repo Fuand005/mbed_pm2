@@ -1,4 +1,4 @@
-#include "test_line_follower.h"
+#include "test_line_follower_SLOW.h"
 
 #include "LineFollower.h"
 #include "DCMotor.h"
@@ -14,12 +14,11 @@ static const float D_WHEEL  = 0.0393f;
 static const float B_WHEEL  = 0.179f;
 static const float BAR_DIST = 0.1836f;
 
-// Gains and speed - tune these
+// Gains and speed
 static const float KP        = 3.0f;
 static const float KP_NL     = 10.0f;
 static const float MAX_SPEED = 0.5f;  // RPS
 
-// Set to -1.0f if robot goes backward (sensor facing wrong way)
 static const float VEL_SIGN = -1.0f;
 
 static DCMotor*      g_M1 = nullptr;
@@ -30,7 +29,7 @@ static LineFollower* g_lf = nullptr;
 static float g_cmd_M1 = 0.0f;
 static float g_cmd_M2 = 0.0f;
 
-void line_follower_init(int loops_per_second)
+void line_follower_slow_init(int loops_per_second)
 {
     static DCMotor motor_M1(PB_PWM_M1, PB_ENC_A_M1, PB_ENC_B_M1,
                              GEAR_RATIO, KN, VOLTAGE_MAX);
@@ -56,20 +55,18 @@ void line_follower_init(int loops_per_second)
     g_M2->setVelocity(0.0f);
 }
 
-void line_follower_task(DigitalOut& led)
+void line_follower_slow_task(DigitalOut& led)
 {
     led = !led;
     *g_en = 1;
 
-    // M1 = right wheel, M2 = left wheel
-    // Flip DIR to -1.0f if robot drives backward
     g_cmd_M1 = VEL_SIGN * g_lf->getRightWheelVelocity();
     g_cmd_M2 = VEL_SIGN * g_lf->getLeftWheelVelocity();
     g_M1->setVelocity(g_cmd_M1);
     g_M2->setVelocity(g_cmd_M2);
 }
 
-void line_follower_reset(DigitalOut& led)
+void line_follower_slow_reset(DigitalOut& led)
 {
     *g_en = 0;
     g_M1->setVelocity(0.0f);
@@ -79,7 +76,7 @@ void line_follower_reset(DigitalOut& led)
     led = 0;
 }
 
-void line_follower_print()
+void line_follower_slow_print()
 {
     printf("a=%.3f | RW=%+.2f LW=%+.2f | FB: M1=%+.2f M2=%+.2f | led=%d\n",
            g_lf->getAngleRadians(),
