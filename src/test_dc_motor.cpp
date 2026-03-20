@@ -59,6 +59,9 @@ void dc_motor_init(int loops_per_second)
     mp_motor_left  = &motor_left;
     mp_motor_right = &motor_right;
 
+    // Enable TIM1 PWM outputs (MOE bit must be set for advanced timers)
+    TIM1->BDTR |= TIM_BDTR_MOE;
+
     // Cap velocity for safety during testing
     mp_motor_left->setMaxVelocity(MAX_TEST_VEL_RPS);
     mp_motor_right->setMaxVelocity(MAX_TEST_VEL_RPS);

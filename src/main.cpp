@@ -61,7 +61,12 @@ int main()
     Timer main_task_timer;
 
     DigitalOut user_led(LED1);
+#ifdef TEST_LINE_FOLLOWER
+    // PB_9 = I2C1 SDA for sensor bar — use a different pin to avoid conflict
+    DigitalOut led1(PB_10);
+#else
     DigitalOut led1(PB_9);
+#endif
 
     const int loops_per_second = static_cast<int>(
         ceilf(1.0f / (0.001f * static_cast<float>(main_task_period_ms))));
