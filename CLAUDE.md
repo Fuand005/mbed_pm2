@@ -2,10 +2,9 @@
 
 ## Aktueller Stand
 _Wird am Ende jeder Session via `/sesh-end` aktualisiert._
-- **Zuletzt:** SSH-Fernzugriff via Tailscale + Termius eingerichtet — PC von Samsung Handy aus steuerbar (2026-03-23)
-- **SSH:** OpenSSH-Server läuft, Firewall offen, Tailscale-IP `100.114.114.94`, Key-Auth funktioniert
-- **Tailscale:** Installiert auf PC + Handy, beide verbunden — funktioniert auch im ZHAW-Netz
-- **authorized_keys:** `C:\ProgramData\ssh\administrators_authorized_keys` (ASCII-Encoding, zwei Keys: PC + Handy)
+- **Zuletzt:** Popup-Sound deaktiviert via `/popupssound` — Flag-Datei `C:\Users\alexa\.claude\sound_disabled` existiert (2026-03-23)
+- **Popups:** Alle drei Scripts (green, orange, loading) prüfen `sound_disabled`-Flag vor jedem Speak-Aufruf; Sound aktuell AUS
+- **Modell:** Noch auf `sonnet` — nach Opus-Reset zurückwechseln auf `opus[1m]` in `~/.claude/settings.json`
 - **mbed:** Kein neuer Funktionscode — `TEST_SERVO_CALIB` ist aktiv, bereit zum Flashen in der Werkstatt
 - **Offen:** Noch keine Hardware-Tests durchgeführt (nicht in der Werkstatt)
 
@@ -61,6 +60,8 @@ Modulares Test-Framework für einen zweimotorigen Differentialantrieb-Roboter. G
 | —   | PC_0      | Farbsensor – S3 |
 
 ## Aktive Entscheidungen
+- Claude Code Modell: `opus[1m]` in `~/.claude/settings.json` — bei Opus-Rate-Limit temporär auf `sonnet` wechseln (Opus-Sublimit ist unabhängig vom Gesamt-Limit)
+- `/popupssound` toggled Sound via Flag-Datei `C:\Users\alexa\.claude\sound_disabled` — alle drei Popup-Scripts prüfen dieses Flag
 - `/popups`-Befehl toggled Popups via Flag-Datei `C:\Users\alexa\.claude\popups_disabled` — kein settings.json-Edit nötig
 - Oranges Popup via `PermissionRequest`-Hook → `permission_request.ps1` (erstellt Flag + fokussiert VSCode + startet Popup)
 - Popup-Dismiss via `PostToolUse`-Hook → `dismiss_orange.ps1` (löscht Flag → Popup schliesst in <100ms)
